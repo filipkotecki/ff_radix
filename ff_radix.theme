@@ -1,0 +1,8 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function ff_radix_theme($existing, $type, $theme, $path) {
+  return [];
+}

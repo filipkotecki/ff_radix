@@ -1,0 +1,21 @@
+global:
+  css:
+    theme:
+      # Custom CSS z dostosowanymi kolorami i kontrastem
+      css/overrides.css: {}
+      # Flowbite CSS (zastępuje DaisyUI)
+      https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css:
+        type: external
+
+  js:
+    # Tailwind CSS Browser (dla utility classes)
+    https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4:
+      type: external
+    # Flowbite JavaScript (dla interaktywnych komponentów)
+    https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js:
+      type: external
+    # Alpine.js (jeśli nadal używasz)
+    https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js:
+      type: external
+      attributes:
+        defer: true

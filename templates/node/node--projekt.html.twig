@@ -1,0 +1,313 @@
+{#
+  Template: node--project.html.twig
+  Type: Project
+  Technologies: Radix + Flowbite + Tailwind
+  Updated: Migracja z DaisyUI na Flowbite
+#}
+
+<article{{ attributes.addClass('project-view container mx-auto px-4 py-10 space-y-12') }}>
+
+  {# --------------------------------------------------------------------------- #}
+  {# A. NAGŁÓWEK PROJEKTU                                                       #}
+  {# --------------------------------------------------------------------------- #}
+  <header class="space-y-4">
+    <h1 class="text-4xl font-bold text-gray-900 dark:text-white">
+      {{ label }}
+    </h1>
+
+    <div class="flex flex-col md:flex-row md:items-center md:space-x-4 space-y-2 md:space-y-0">
+      
+      {# Badge ID - niebieski #}
+      <span class="inline-flex items-center px-3 py-1 text-sm font-semibold text-white bg-blue-700 rounded">
+        ID: {{ content.field_prj_id['#items'].0.value }}
+      </span>
+
+      {# Badge Skrót - outline #}
+      {% if content.field_prj_skrot %}
+        <span class="inline-flex items-center px-3 py-1 text-sm font-semibold text-blue-700 bg-white border-2 border-blue-700 rounded">
+          Skrót: {{ content.field_prj_skrot['#items'].0.value }}
+        </span>
+      {% endif %}
+
+      {# Kierownik i daty #}
+      {% if content.field_prj_kierownik %}
+        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
+          <strong>Kierownik:</strong> {{ content.field_prj_kierownik['#items'].0.entity.label }}
+        </span>
+      {% endif %}
+
+      <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
+        <strong>Czas trwania:</strong> 
+        {{ content.field_prj_data_start['#items'].0.value }} → {{ content.field_prj_data_koniec['#items'].0.value }}
+      </span>
+
+    </div>
+  </header>
+
+
+
+  {# --------------------------------------------------------------------------- #}
+  {# B. INFORMACJE SZCZEGÓŁOWE (Karty)                                          #}
+  {# --------------------------------------------------------------------------- #}
+  <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+    {# --- Karta: Dane projektu --- #}
+    <div class="p-6 bg-white border-2 border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+      <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">
+        📁 Dane projektu
+      </h2>
+
+      <dl class="space-y-3">
+        {% if content.field_prj_kierownik %}
+          <div>
+            <dt class="text-sm font-semibold text-gray-700 dark:text-gray-300">Kierownik:</dt>
+            <dd class="text-base text-gray-900 dark:text-white">
+              {{ content.field_prj_kierownik['#items'].0.entity.label }}
+            </dd>
+          </div>
+        {% endif %}
+
+        <div>
+          <dt class="text-sm font-semibold text-gray-700 dark:text-gray-300">Czas trwania:</dt>
+          <dd class="text-base text-gray-900 dark:text-white">
+            {{ content.field_prj_data_start['#items'].0.value }}
+            →
+            {{ content.field_prj_data_koniec['#items'].0.value }}
+          </dd>
+        </div>
+      </dl>
+    </div>
+
+    {# --- Karta: Finansowanie --- #}
+    <div class="p-6 bg-white border-2 border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+      <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">
+        🏛 Finansowanie
+      </h2>
+
+      <dl class="space-y-3">
+        <div>
+          <dt class="text-sm font-semibold text-gray-700 dark:text-gray-300">Instytucja finansująca:</dt>
+          <dd class="text-base text-gray-900 dark:text-white">
+            {{ content.field_prj_inst_finansujaca['#items'].0.entity.label }}
+          </dd>
+        </div>
+
+        <div>
+          <dt class="text-sm font-semibold text-gray-700 dark:text-gray-300">Kategoria finansowania:</dt>
+          <dd class="text-base text-gray-900 dark:text-white">
+            {{ content.field_prj_kategoria['#items'].0.entity.label }}
+          </dd>
+        </div>
+      </dl>
+    </div>
+
+  </section>
+
+
+
+  {# --------------------------------------------------------------------------- #}
+  {# C. BUDŻET GŁÓWNY (Stats Cards)                                             #}
+  {# --------------------------------------------------------------------------- #}
+  <section>
+    <h2 class="mb-6 text-2xl font-bold text-gray-900 dark:text-white">💰 Źródła budżetu</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      {# Stat 1: Budżet całkowity #}
+      <div class="p-6 bg-white border-2 border-blue-200 rounded-lg shadow-md">
+        <dt class="mb-2 text-sm font-semibold text-gray-600 uppercase tracking-wider">
+          Budżet całkowity
+        </dt>
+        <dd class="text-3xl font-bold text-blue-700">
+          {{ content.field_prj_budget_total['#items'].0.value }}
+        </dd>
+      </div>
+
+      {# Stat 2: Finansowanie zewnętrzne #}
+      <div class="p-6 bg-white border-2 border-green-200 rounded-lg shadow-md">
+        <dt class="mb-2 text-sm font-semibold text-gray-600 uppercase tracking-wider">
+          Finansowanie zewnętrzne
+        </dt>
+        <dd class="text-3xl font-bold text-green-700">
+          {{ content.field_prj_budget_financing['#items'].0.value }}
+        </dd>
+      </div>
+
+      {# Stat 3: Wkład własny #}
+      <div class="p-6 bg-white border-2 border-gray-200 rounded-lg shadow-md">
+        <dt class="mb-2 text-sm font-semibold text-gray-600 uppercase tracking-wider">
+          Wkład własny
+        </dt>
+        <dd class="text-3xl font-bold text-gray-900">
+          {{ content.field_prj_budget_own['#items'].0.value }}
+        </dd>
+      </div>
+
+    </div>
+  </section>
+
+
+
+  {# --------------------------------------------------------------------------- #}
+  {# D. STAN BUDŻETU                                                             #}
+  {# --------------------------------------------------------------------------- #}
+  <section>
+    <h2 class="mb-6 text-2xl font-bold text-gray-900 dark:text-white">📊 Stan budżetu</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      
+      {# Wykorzystany budżet - pomarańczowy #}
+      <div class="p-6 bg-white border-2 border-orange-200 rounded-lg shadow-md">
+        <dt class="mb-2 text-sm font-semibold text-gray-600 uppercase tracking-wider">
+          Wykorzystany budżet
+        </dt>
+        <dd class="text-3xl font-bold text-orange-600">
+          {{ content.field_prj_budget_used['#items'].0.value }}
+        </dd>
+      </div>
+
+      {# Dostępny budżet - zielony #}
+      <div class="p-6 bg-white border-2 border-green-200 rounded-lg shadow-md">
+        <dt class="mb-2 text-sm font-semibold text-gray-600 uppercase tracking-wider">
+          Dostępny budżet
+        </dt>
+        <dd class="text-3xl font-bold text-green-700">
+          {{ content.field_prj_budget_available['#items'].0.value }}
+        </dd>
+      </div>
+
+    </div>
+  </section>
+
+
+
+  {# --------------------------------------------------------------------------- #}
+  {# E. TABELA: AKTYWNA WERSJA BUDŻETU                                          #}
+  {# --------------------------------------------------------------------------- #}
+  <section>
+    <h2 class="mb-6 text-2xl font-bold text-gray-900 dark:text-white">📌 Aktualna wersja budżetu</h2>
+
+    <div class="relative overflow-x-auto shadow-lg sm:rounded-lg">
+      <table class="w-full text-base text-left text-gray-700 dark:text-gray-400">
+        <thead class="text-sm font-bold text-white uppercase bg-blue-700 dark:bg-blue-900">
+          <tr>
+            <th scope="col" class="px-6 py-4">Wersja</th>
+            <th scope="col" class="px-6 py-4">Data</th>
+            <th scope="col" class="px-6 py-4">Status</th>
+            <th scope="col" class="px-6 py-4">Kwota</th>
+            <th scope="col" class="px-6 py-4">
+              <span class="sr-only">Akcje</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {# Przykładowy wiersz - zastąp danymi z Views lub pola #}
+          <tr class="bg-white border-b hover:bg-blue-50 dark:bg-gray-800 dark:border-gray-700">
+            <th scope="row" class="px-6 py-4 font-bold text-gray-900 whitespace-nowrap dark:text-white">
+              v2.0
+            </th>
+            <td class="px-6 py-4 text-gray-700">2025-12-03</td>
+            <td class="px-6 py-4">
+              <span class="px-3 py-1 text-sm font-semibold text-white bg-green-600 rounded">
+                Aktywna
+              </span>
+            </td>
+            <td class="px-6 py-4 font-bold text-gray-900">150,000.00 PLN</td>
+            <td class="px-6 py-4 text-right">
+              <a href="#" class="font-semibold text-blue-700 hover:underline">
+                Zobacz szczegóły
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </section>
+
+
+
+  {# --------------------------------------------------------------------------- #}
+  {# F. TABELA: HISTORIA WERSJI BUDŻETU                                         #}
+  {# --------------------------------------------------------------------------- #}
+  <section>
+    <h2 class="mb-6 text-2xl font-bold text-gray-900 dark:text-white">📜 Historia wersji budżetu</h2>
+
+    <div class="relative overflow-x-auto shadow-lg sm:rounded-lg">
+      <table class="w-full text-base text-left text-gray-700 dark:text-gray-400">
+        <thead class="text-sm font-bold text-white uppercase bg-blue-700 dark:bg-blue-900">
+          <tr>
+            <th scope="col" class="px-6 py-4">Wersja</th>
+            <th scope="col" class="px-6 py-4">Data modyfikacji</th>
+            <th scope="col" class="px-6 py-4">Autor</th>
+            <th scope="col" class="px-6 py-4">Zmiana kwoty</th>
+            <th scope="col" class="px-6 py-4">
+              <span class="sr-only">Akcje</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {# Przykładowe wiersze - zastąp danymi z Views #}
+          <tr class="bg-white border-b hover:bg-blue-50 dark:bg-gray-800 dark:border-gray-700">
+            <th scope="row" class="px-6 py-4 font-bold text-gray-900 whitespace-nowrap dark:text-white">
+              v1.2
+            </th>
+            <td class="px-6 py-4 text-gray-700">2025-11-28</td>
+            <td class="px-6 py-4 text-gray-700">Jan Kowalski</td>
+            <td class="px-6 py-4 font-bold text-green-700">+ 5,000.00 PLN</td>
+            <td class="px-6 py-4 text-right">
+              <a href="#" class="font-semibold text-blue-700 hover:underline">
+                Zobacz szczegóły
+              </a>
+            </td>
+          </tr>
+          
+          <tr class="bg-gray-50 border-b hover:bg-blue-50 dark:bg-gray-900 dark:border-gray-700">
+            <th scope="row" class="px-6 py-4 font-bold text-gray-900 whitespace-nowrap dark:text-white">
+              v1.1
+            </th>
+            <td class="px-6 py-4 text-gray-700">2025-11-15</td>
+            <td class="px-6 py-4 text-gray-700">Anna Nowak</td>
+            <td class="px-6 py-4 font-bold text-red-700">- 2,500.00 PLN</td>
+            <td class="px-6 py-4 text-right">
+              <a href="#" class="font-semibold text-blue-700 hover:underline">
+                Zobacz szczegóły
+              </a>
+            </td>
+          </tr>
+
+          <tr class="bg-white border-b hover:bg-blue-50 dark:bg-gray-800 dark:border-gray-700">
+            <th scope="row" class="px-6 py-4 font-bold text-gray-900 whitespace-nowrap dark:text-white">
+              v1.0
+            </th>
+            <td class="px-6 py-4 text-gray-700">2025-11-01</td>
+            <td class="px-6 py-4 text-gray-700">Piotr Wiśniewski</td>
+            <td class="px-6 py-4 font-bold text-gray-900">145,000.00 PLN</td>
+            <td class="px-6 py-4 text-right">
+              <a href="#" class="font-semibold text-blue-700 hover:underline">
+                Zobacz szczegóły
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </section>
+
+
+
+  {# --------------------------------------------------------------------------- #}
+  {# G. OPIS PROJEKTU                                                            #}
+  {# --------------------------------------------------------------------------- #}
+  {% if content.field_prj_krotki_opis %}
+    <section>
+      <h2 class="mb-6 text-2xl font-bold text-gray-900 dark:text-white">📝 Opis projektu</h2>
+
+      <div class="p-6 bg-white border-2 border-gray-200 rounded-lg shadow-md prose prose-lg max-w-none dark:bg-gray-800 dark:border-gray-700">
+        {{ content.field_prj_krotki_opis }}
+      </div>
+    </section>
+  {% endif %}
+
+</article>

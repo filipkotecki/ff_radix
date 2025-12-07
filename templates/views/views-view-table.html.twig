@@ -1,0 +1,23 @@
+<table{{ attributes.addClass('table table-zebra w-full rounded-box shadow') }}>
+  <thead>
+    <tr>
+      {% for key, column in header %}
+        <th class="text-sm font-semibold text-gray-700 px-4 py-3">
+          {{ column.content }}
+        </th>
+      {% endfor %}
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for row in rows %}
+      <tr class="hover">
+        {% for key, column in row %}
+          <td class="px-4 py-3 text-gray-800 text-sm">
+            {{ column.content }}
+          </td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
